@@ -11,7 +11,12 @@
         padding: 0;
         overflow: hidden;
         height: 100%;
-        font-family: "Comic Sans MS", cursive, sans-serif;
+      }
+
+      .pacifico-regular {
+        font-family: "Pacifico", cursive;
+        font-weight: 400;
+        font-style: normal;
       }
 
       body {
@@ -59,9 +64,20 @@
         z-index: 1;
       }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <div id="message">Happy Birthday Fidha</div>
+  <body class="pacifico-regular">
+    <div id="message">
+      <span style="color: #ff5f6d">Happy Birthday Fidha</span><br /><span
+        style="color: #7a6240"
+        >The End*</span
+      >
+    </div>
     <canvas id="confetti"></canvas>
 
     <script>
