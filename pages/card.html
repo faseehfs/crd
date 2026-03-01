@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Happy Birthday Fidha</title>
+
     <style>
       html,
       body {
@@ -13,125 +15,205 @@
         height: 100%;
       }
 
+      /* Font */
+
       .pacifico-regular {
         font-family: "Pacifico", cursive;
         font-weight: 400;
         font-style: normal;
       }
 
+      /* Layout */
+
       body {
         display: flex;
         justify-content: center;
         align-items: flex-start;
+
         padding-top: 25vh;
-        background: linear-gradient(-45deg, #ff5f6d, #ffc371, #24c6dc, #514a9d);
+
+        background: linear-gradient(-45deg, #ff5f6d, #ffc371, #ff5f6d, #ffc371);
         background-size: 400% 400%;
+
         animation: gradientBG 15s ease infinite;
       }
+
+      /* Background animation */
 
       @keyframes gradientBG {
         0% {
           background-position: 0% 50%;
         }
+
         50% {
           background-position: 100% 50%;
         }
+
         100% {
           background-position: 0% 50%;
         }
       }
 
+      /* Message container */
+
       #message {
         font-size: 2.5em;
         color: #fff;
         text-align: center;
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 1s ease-out;
+
         text-shadow:
           0 0 10px #fff,
           0 0 20px #ff0,
           0 0 30px #f0f,
           0 0 40px #0ff;
+
         z-index: 2;
         position: relative;
       }
+
+      /* Individual text animations */
+
+      #mainText,
+      #endText {
+        opacity: 0;
+
+        transform: scale(0.5);
+
+        transition: all 1s ease-out;
+      }
+
+      #endText {
+        margin-top: 10px;
+      }
+
+      /* Canvas */
 
       canvas {
         position: absolute;
         top: 0;
         left: 0;
+
         z-index: 1;
       }
     </style>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet"
     />
   </head>
+
   <body class="pacifico-regular">
     <div id="message">
-      <span style="color: #ff5f6d">Happy Birthday Fidha</span><br /><span
-        style="color: #7a6240"
-        >The End*</span
-      >
+      <div id="mainText" style="color: #ff5f6d">Happy Birthday Fidha</div>
+
+      <div id="endText" style="color: #7a6240">The End*</div>
     </div>
+
     <canvas id="confetti"></canvas>
 
     <script>
-      // Wait a few seconds before starting
+      /* Fix upward movement on reload */
+
+      history.scrollRestoration = "manual";
+
+      window.addEventListener("load", () => {
+        window.scrollTo(0, 0);
+      });
+
+      /* Start animation */
+
       setTimeout(startParty, 2000);
 
       function startParty() {
-        const message = document.getElementById("message");
-        message.style.opacity = "1";
-        message.style.transform = "scale(1)";
+        const mainText = document.getElementById("mainText");
 
-        // Confetti
+        const endText = document.getElementById("endText");
+
+        /* Main text */
+
+        mainText.style.opacity = "1";
+        mainText.style.transform = "scale(1)";
+
+        /* End text later */
+
+        setTimeout(() => {
+          endText.style.opacity = "1";
+          endText.style.transform = "scale(1)";
+        }, 3000);
+
+        /* Confetti */
+
         const canvas = document.getElementById("confetti");
+
         const ctx = canvas.getContext("2d");
+
         canvas.width = window.innerWidth;
+
         canvas.height = window.innerHeight;
 
         const confettiCount = 150;
+
         const confetti = [];
 
         class Confetto {
           constructor() {
             this.reset();
           }
+
           reset() {
             this.x = Math.random() * canvas.width;
+
             this.y = Math.random() * -canvas.height;
+
             this.size = Math.random() * 8 + 4;
+
             this.speed = Math.random() * 5 + 2;
+
             this.angle = Math.random() * 2 * Math.PI;
+
             this.spin = Math.random() * 0.1 - 0.05;
-            this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+
+            this.color = `hsl(${Math.random() * 360},100%,60%)`;
           }
+
           update() {
             this.y += this.speed;
+
             this.angle += this.spin;
+
             if (this.y > canvas.height) this.reset();
           }
+
           draw() {
             ctx.fillStyle = this.color;
+
             ctx.beginPath();
+
             ctx.moveTo(
               this.x + this.size * Math.cos(this.angle),
+
               this.y + this.size * Math.sin(this.angle),
             );
+
             ctx.lineTo(
               this.x + this.size * Math.cos(this.angle + Math.PI / 2),
+
               this.y + this.size * Math.sin(this.angle + Math.PI / 2),
             );
+
             ctx.lineTo(
               this.x + this.size * Math.cos(this.angle + Math.PI),
+
               this.y + this.size * Math.sin(this.angle + Math.PI),
             );
+
             ctx.closePath();
+
             ctx.fill();
           }
         }
@@ -141,21 +223,35 @@
         }
 
         function animate() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.clearRect(
+            0,
+
+            0,
+
+            canvas.width,
+
+            canvas.height,
+          );
+
           confetti.forEach((c) => {
             c.update();
+
             c.draw();
           });
+
           requestAnimationFrame(animate);
         }
 
         animate();
       }
 
-      // Resize canvas on orientation change
+      /* Resize */
+
       window.addEventListener("resize", () => {
         const canvas = document.getElementById("confetti");
+
         canvas.width = window.innerWidth;
+
         canvas.height = window.innerHeight;
       });
     </script>
