@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <p id="info">Type in your name:</p>
+    <input id="nameInput" />
+    <p></p>
+    <button class="btn" id="checkBtn">Check</button>
+
+    <script>
+      const nameInput = document.getElementById("nameInput");
+      const checkBtn = document.getElementById("checkBtn");
+      const info = document.getElementById("info");
+
+      checkBtn.addEventListener("click", () => {
+        const validNames = ["fidha salva fs", "fidha salva f. s."];
+        if (validNames.includes(nameInput.value.toLowerCase().trim())) {
+          window.location.href = "card-cover.html";
+        } else {
+          nameInput.value = "";
+          info.innerHTML = "The name you entered is incorrect.<br>Try again.";
+        }
+      });
+    </script>
+  </body>
+</html>

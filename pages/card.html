@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Fidha</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #ff5f6d, #ffc371, #24c6dc, #514a9d);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #message {
+        font-size: 2.5em;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 1s ease-out;
+        text-shadow:
+          0 0 10px #fff,
+          0 0 20px #ff0,
+          0 0 30px #f0f,
+          0 0 40px #0ff;
+        z-index: 2;
+        position: relative;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="message">Happy Birthday Fidha</div>
+    <canvas id="confetti"></canvas>
+
+    <script>
+      // Wait a few seconds before starting
+      setTimeout(startParty, 2000);
+
+      function startParty() {
+        const message = document.getElementById("message");
+        message.style.opacity = "1";
+        message.style.transform = "scale(1)";
+
+        // Confetti
+        const canvas = document.getElementById("confetti");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiCount = 150;
+        const confetti = [];
+
+        class Confetto {
+          constructor() {
+            this.reset();
+          }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * -canvas.height;
+            this.size = Math.random() * 8 + 4;
+            this.speed = Math.random() * 5 + 2;
+            this.angle = Math.random() * 2 * Math.PI;
+            this.spin = Math.random() * 0.1 - 0.05;
+            this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+          }
+          update() {
+            this.y += this.speed;
+            this.angle += this.spin;
+            if (this.y > canvas.height) this.reset();
+          }
+          draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.moveTo(
+              this.x + this.size * Math.cos(this.angle),
+              this.y + this.size * Math.sin(this.angle),
+            );
+            ctx.lineTo(
+              this.x + this.size * Math.cos(this.angle + Math.PI / 2),
+              this.y + this.size * Math.sin(this.angle + Math.PI / 2),
+            );
+            ctx.lineTo(
+              this.x + this.size * Math.cos(this.angle + Math.PI),
+              this.y + this.size * Math.sin(this.angle + Math.PI),
+            );
+            ctx.closePath();
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < confettiCount; i++) {
+          confetti.push(new Confetto());
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          confetti.forEach((c) => {
+            c.update();
+            c.draw();
+          });
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+      // Resize canvas on orientation change
+      window.addEventListener("resize", () => {
+        const canvas = document.getElementById("confetti");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
