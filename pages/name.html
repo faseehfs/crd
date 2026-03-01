@@ -18,7 +18,11 @@
       const info = document.getElementById("info");
 
       checkBtn.addEventListener("click", () => {
-        const validNames = ["fidha salva fs", "fidha salva f. s."];
+        const validNames = [
+          "fidha salva fs",
+          "fidha salva f. s.",
+          "fidha salva f s",
+        ];
         if (validNames.includes(nameInput.value.toLowerCase().trim())) {
           window.location.href = "card-cover.html";
         } else {
